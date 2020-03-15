@@ -1,27 +1,60 @@
 import * as React from 'react';
-import { Checkbox } from 'antd';
+import { Checkbox, Icon } from 'antd';
 
 interface ITodoItemProps {
     id: number;
     description: string;
     completed: boolean;
+    editing: boolean;
     update: (id: number, params: any) => void
+    toEditing: (id: number) => void
 }
 
 interface ITodoItemState {
-    xxx: '';
+    editText: string;
 }
 
-class TodoInput extends React.Component<ITodoItemProps, ITodoItemState> {
+class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
     constructor(props: any) {
         super(props)
+        this.state = {
+            editText: this.props.description
+        }
     }
 
     update = (params: any) => {
         this.props.update(this.props.id, params)
     }
+
+    toEditing = () => {
+        this.props.toEditing(this.props.id)
+    }
+
+    onKeyUp = (e: any) => {
+        if(this.state.editText !== '' && e.keyCode === 13){
+            this.update({description: this.state.editText})
+        }
+    }
    
     public render() {
+        const Editing = (
+            <div className="editing">
+                <input type="text" value={this.state.editText} 
+                       onChange={e=>this.setState({editText: e.target.value})}
+                       onKeyUp={this.onKeyUp}
+                />
+                <div className="iconWrapper">
+                    <Icon type="enter" />
+                    <Icon type="delete" theme="filled" 
+                          onClick={e=>this.update({deleted: true})}/>
+                </div>
+            </div>
+        )
+        const Text = (
+            <span onDoubleClick={this.toEditing}>
+                {this.props.description}
+            </span>
+        )
         return (
             <div className="TodoItem" id="TodoItem">
                 <Checkbox checked={this.props.completed}
@@ -32,11 +65,13 @@ class TodoInput extends React.Component<ITodoItemProps, ITodoItemState> {
 
                             }     
                 />
-                <span>{this.props.description}</span>
+                {
+                    this.props.editing ? Editing : Text
+                }
             </div>
         )
     }
 }
 
-export default TodoInput;
+export default TodoItem;
 

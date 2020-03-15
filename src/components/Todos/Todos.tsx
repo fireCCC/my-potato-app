@@ -30,8 +30,9 @@ class Todos extends React.Component<any, ITodosState> {
     getTodos = async () => {
         try{
             const response = await axios.get('https://gp-server.hunger-valley.com/todos')
-            console.log("response.data", response.data)
-            this.setState({todos: response.data.resources})
+            const todos = response.data.resources.map((t: any)=>Object.assign({}, t, {editing: false}))
+            this.setState({todos})
+        
         }catch (e) {
             throw new Error(e)
         }
@@ -60,6 +61,18 @@ class Todos extends React.Component<any, ITodosState> {
         this.getTodos()
     }
 
+    toEditing = (id: number) => {
+        const {todos} = this.state
+        const newTodos = todos.map(t=>{
+            if (id === t.id) {
+                return Object.assign({}, t, {editing: true})
+            } else {
+                return Object.assign({}, t, {editing: false})
+            }
+        })
+        this.setState({todos: newTodos})
+    }
+
     public render() {
         return (
             <div className="Todos" id="Todos">
@@ -69,6 +82,7 @@ class Todos extends React.Component<any, ITodosState> {
                         this.state.todos.map(t=>{
                                 return (<TodoItem key={t && t.id} {...t}
                                     update={this.updateTodo}
+                                    toEditing={this.toEditing}
                                 />)
                         })
                     }
