@@ -13,8 +13,8 @@ class Login extends React.Component<any, ILoginState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            account: '',
-            password: ''
+            account: 'zwx',
+            password: 'zwx'
         }
     }
 
@@ -66,7 +66,7 @@ class Login extends React.Component<any, ILoginState> {
                     onChange={(e) => {this.onChange('password', e.target.value)}}
                 />
                 <Button type="primary" className="loginButton" onClick={this.submit}>登录</Button>
-                <p>或者立即<Link to="/signUp">注册</Link></p>
+                <p>可直接登陆哟~或者<Link to="/signUp">立即注册</Link></p>
             </div>
         )
     }

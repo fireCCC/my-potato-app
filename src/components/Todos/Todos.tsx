@@ -16,12 +16,27 @@ class Todos extends React.Component<any, ITodosState> {
         }
     }
 
+    get unDeletedTodos() {
+        return this.state.todos.filter(t => !t.deleted)
+    }
+
+    get unCompletedTodos() {
+        return this.unDeletedTodos.filter(t => !t.completed)
+    }
+
+    get completedTodos() {
+        return this.unDeletedTodos.filter(t => t.completed)
+    }
+
     addTodo = async (params: any) => {
-        const { todos } = this.state
+        // const { todos } = this.state
         try{
             const response = await axios.post('https://gp-server.hunger-valley.com/todos', params)
-            this.setState({todos: [response.data.resources, ...todos]})
-            console.log("state", this.state)
+
+            console.log("response!", response)
+            // this.setState({todos: [response.data.resources, ...todos]})
+            // console.log("state", this.state)
+            this.getTodos()
         }catch (e) {
             throw new Error(e)
         }
@@ -77,16 +92,28 @@ class Todos extends React.Component<any, ITodosState> {
         return (
             <div className="Todos" id="Todos">
                 <TodoInput addTodo={(params: any)=>{this.addTodo(params)}}/>
-                <main>
+                <div className="todoLists">
                     {
-                        this.state.todos.map(t=>{
-                                return (<TodoItem key={t && t.id} {...t}
-                                    update={this.updateTodo}
-                                    toEditing={this.toEditing}
-                                />)
+                        this.unCompletedTodos.map(t=>{
+                                return (
+                                    <TodoItem key={t && t.id} {...t}
+                                        update={this.updateTodo}
+                                        toEditing={this.toEditing}
+                                    />
+                                )
                         })
                     }
-                </main>
+                    {
+                        this.completedTodos.map(t=>{
+                                return (
+                                    <TodoItem key={t && t.id} {...t}
+                                        update={this.updateTodo}
+                                        toEditing={this.toEditing}
+                                    />
+                                )
+                        })
+                    }
+                </div>
             </div>
         )
     }

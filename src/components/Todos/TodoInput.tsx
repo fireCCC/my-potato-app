@@ -25,6 +25,7 @@ class TodoInput extends React.Component<ITodoInputProps, ITodoInputState> {
     }
 
     addTodo = () => {
+        console.log("addtodo!!", this.state.description)
         this.props.addTodo({description: this.state.description})
         this.setState({description: ''})
 
