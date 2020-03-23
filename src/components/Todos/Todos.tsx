@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { addTodo } from '../../redux/actions';
 import TodoInput from 'src/components/Todos/TodoInput';
 import TodoItem from 'src/components/Todos/TodoItem';
 import axios from 'src/config/axios';
@@ -29,6 +31,7 @@ class Todos extends React.Component<any, ITodosState> {
     }
 
     addTodo = async (params: any) => {
+        console.log("todos=>addtodo")
         // const { todos } = this.state
         try{
             const response = await axios.post('https://gp-server.hunger-valley.com/todos', params)
@@ -91,7 +94,8 @@ class Todos extends React.Component<any, ITodosState> {
     public render() {
         return (
             <div className="Todos" id="Todos">
-                <TodoInput addTodo={(params: any)=>{this.addTodo(params)}}/>
+                {/* <TodoInput addTodo={(params: any)=>{this.addTodo(params)}}/> */}
+                <TodoInput />
                 <div className="todoLists">
                     {
                         this.unCompletedTodos.map(t=>{
@@ -119,5 +123,14 @@ class Todos extends React.Component<any, ITodosState> {
     }
 }
 
-export default Todos;
+const mapStateToProps = (state: any, ownProps: any) => ({
+    todos: state.todos,
+    ...ownProps
+})
+
+const mapDispatchToProps = {
+    addTodo
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);
 
