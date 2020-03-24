@@ -6,6 +6,7 @@ import { Input, Icon } from 'antd';
 
 interface ITodoInputProps {
     addTodo: (payload: any) => any;
+    getTodos: any
 }
 
 interface ITodoInputState {
@@ -35,6 +36,7 @@ class TodoInput extends React.Component<ITodoInputProps, ITodoInputState> {
             {description: this.state.description})
             console.log("addtodo!", response.data.resource)
             this.props.addTodo(response.data.resource)
+            this.props.getTodos()
         }catch (e) {
             throw new Error(e)
         }
