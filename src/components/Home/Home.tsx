@@ -3,6 +3,7 @@ import { Dropdown, Icon, Menu } from "antd";
 import axios from 'src/config/axios';
 import history from 'src/config/history'
 import Todos from 'src/components/Todos/Todos'
+import Tomatoes from 'src/components/Tomatoes/Tomatoes'
 import './Home.scss'
 
 interface IRouter {
@@ -40,17 +41,8 @@ class Home extends React.Component<IRouter, IIndexState> {
 
     getMe = async () => {
         const response = await axios.get('https://gp-server.hunger-valley.com/me')
-        console.log(response)
         this.setState({user: response.data})
     }
-
-    // public login = () => {
-    //     console.log(this)
-    //     console.log(this.props)
-    //     this.props.history.push('/login')
-    // }
-
-
 
     public render() {
         return (
@@ -66,6 +58,7 @@ class Home extends React.Component<IRouter, IIndexState> {
                     </Dropdown>
                 </header>
                 <main>
+                    <Tomatoes />
                     <Todos />
                 </main>
             </div>

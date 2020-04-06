@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { initTodos, updateTodo } from '../../redux/actions';
+import actions from '../../redux/actions/index';
 import TodoInput from 'src/components/Todos/TodoInput';
 import TodoItem from 'src/components/Todos/TodoItem';
 import axios from 'src/config/axios';
 import './Todos.scss';
+
+const { initTodos, updateTodo } = actions
 
 class Todos extends React.Component<any, any> {
     constructor(props: any) {
