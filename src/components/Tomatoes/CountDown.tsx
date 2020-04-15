@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Progress } from 'antd';
 import './CountDown.scss';
 
 interface ICountDownProps {
@@ -32,9 +33,9 @@ class CountDown extends React.Component<ICountDownProps, ICountDownState> {
 
     componentDidMount() {
         timerId = setInterval(() => {
-            document.title = `${this.countDown} - my-potato-app`
             const time = this.state.countDown
             this.setState({countDown: time - 1000})
+            document.title = `${this.countDown} - my-potato-app`
             if(time < 1000) {
                 document.title = 'my-potato-app'
                 this.props.onFinish()
@@ -52,10 +53,20 @@ class CountDown extends React.Component<ICountDownProps, ICountDownState> {
         return (
             <div className="CountDown" id="CountDown">
                 <span className="restTime">{this.countDown}</span>
-                <div 
+                {/* <div 
                     className="progress"
                     style={{width: `${percent * 100}%`}} 
-                /> 
+                />  */}
+                <Progress
+                    className="progress"
+                    strokeColor={{
+                        '0%': '#e9e9e9',
+                        '100%': '#c9c9c9',
+                    }}
+                    showInfo={false}
+                    strokeWidth={30}
+                    percent={percent * 100}
+                />
             </div>
         )
     }

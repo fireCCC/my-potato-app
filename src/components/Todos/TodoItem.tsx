@@ -32,6 +32,9 @@ class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
     }
     
     updateTodo = async (params: any) => {
+        if(params.completed){
+            params.completed_at = new Date()
+        }
         try{
             const response = await axios.put(`https://gp-server.hunger-valley.com/todos/${this.props.id}`, params)
             this.props.updateTodo(response.data.resource)

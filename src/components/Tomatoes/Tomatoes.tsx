@@ -1,9 +1,12 @@
 import * as React from 'react';
 import TomatoAction from './TomatoAction';
+import TomatoList from './TomatoList';
 import { connect } from 'react-redux';
 import { addTomato, initTomatoes, updateTomato } from '../../redux/actions/tomatoes';
 import axios from 'src/config/axios';
 import './Tomatoes.scss';
+import _ from 'lodash';
+import { format,parseISO } from 'date-fns';
 
 interface ITomatoesProps {
     addTomato: (payload: any) => any,
@@ -15,7 +18,6 @@ interface ITomatoesProps {
 class Tomatoes extends React.Component<ITomatoesProps, any> {
     constructor(prop: any) {
         super(prop)
-        console.log("prop", prop)
     }
 
     componentDidMount() {
@@ -23,16 +25,27 @@ class Tomatoes extends React.Component<ITomatoesProps, any> {
     }
 
     get unfinishedTomato() {
+        // console.log(this.props.tomatoes)
         return this.props.tomatoes.filter((t)=>{
             return (!t.description && !t.ended_at && !t.aborted)
         })[0]
+    }
+
+    get finishedTomatoes() {
+        const finishedTomatoes = this.props.tomatoes.filter((t)=>{
+            return (t.description && t.ended_at && !t.aborted)
+        })
+        console.log("finishedTomatoes", finishedTomatoes)
+        const obj = _.groupBy(finishedTomatoes, (tomato: any)=>{
+            return format(parseISO(tomato.started_at), 'yyyy-MM-d')
+        })
+        return obj
     }
 
     getTomatoes = async () => {
         try {
             const response = await axios.get('https://gp-server.hunger-valley.com/tomatoes')
             this.props.initTomatoes(response.data.resources)
-            console.log("get!", this.props.tomatoes)
         } catch (e) {
             throw new Error(e)
         } 
@@ -56,6 +69,8 @@ class Tomatoes extends React.Component<ITomatoesProps, any> {
                     unfinishedTomato={this.unfinishedTomato}
                     updateTomato={this.props.updateTomato}
                 />
+                <TomatoList finishedTomatoes={this.finishedTomatoes} />
+
             </div>
         )
     }
