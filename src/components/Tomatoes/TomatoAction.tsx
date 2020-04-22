@@ -75,7 +75,13 @@ class TomatoAction extends React.Component<ITomatoActionProps, ITomatoActionStat
         if(unfinished === undefined) {
             html = <Button className="startTomatoButton" onClick={()=>{
                 this.props.startTomato()
-            }}>开始番茄</Button>
+            }}>
+                <svg className="icon" aria-hidden="true">
+                    <use xlinkHref="#iconxihongshi" />
+                </svg>
+                开始番茄
+                
+            </Button>
         } else {
             const startedAt = Date.parse(unfinished.started_at)
             const duration = unfinished.duration

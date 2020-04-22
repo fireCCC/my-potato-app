@@ -35,7 +35,12 @@ class TomatoList extends React.Component<ITomatoListProps, any> {
             return (
                 <div key={d} className="dailyTomatoes">
                     <div className="title">
-                        <span className="dateTime">{format(Date.parse(d), 'M月dd日')}</span>
+                        <span className="dateTime">
+                            <svg className="icon" aria-hidden="true">
+                                <use xlinkHref="#iconriqi" />
+                            </svg>
+                            {format(Date.parse(d), 'M月dd日')}
+                        </span>
                         <span className="finishedCount">完成了{tomatoes.length}个番茄</span>
                     </div>
                     {
