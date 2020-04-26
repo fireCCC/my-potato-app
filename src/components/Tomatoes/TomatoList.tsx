@@ -26,7 +26,7 @@ class TomatoList extends React.Component<ITomatoListProps, any> {
         const dates = Object.keys(this.props.finishedTomatoes)
         return dates.sort((a, b) => {
             return (Date.parse(b) - Date.parse(a))
-        }).splice(0, 3)
+        }).splice(0, 4)
     }
 
     public render() {

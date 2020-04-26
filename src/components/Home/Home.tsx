@@ -91,7 +91,7 @@ class Home extends React.Component<any, IIndexState> {
                 </header>
                 <main>
                     <Tomatoes />
-                    <Todos />
+                    <Todos getTodos={this.getTodos}/>
                 </main>
                 <Statistics />
             </div>
