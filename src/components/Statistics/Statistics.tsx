@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import './Statistics.scss';
 import Polygon from './Polygon';
+import TodoHistory from './TodoHistory';
 import { format, parseISO } from 'date-fns';
 import _ from 'lodash';
 
@@ -17,7 +18,7 @@ class Statistics extends React.Component<IStatisticsProps, any> {
     get finishedTodos() {
         console.log('this.props.todos', this.props.todos)
         return this.props.todos.filter((t: any) => {
-            return (t.completed_at !== null) && !t.deleted
+            return t.completed && !t.deleted
         })
     }
 
@@ -62,6 +63,7 @@ class Statistics extends React.Component<IStatisticsProps, any> {
                             totalFinishedCount={this.finishedTodos.length} />
                     </li>
                 </ul>
+                <TodoHistory />
             </div>
         )
     }
