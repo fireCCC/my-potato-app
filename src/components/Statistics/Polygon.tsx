@@ -17,20 +17,22 @@ class Polygon extends React.Component<IPolygonProps> {
         })
         const firstDay = dates[0]
         if(firstDay) {
-            console.log("firstDay", firstDay)
-            const lastDay = dates[dates.length - 1]
-            console.log("lastDay", lastDay)
-            const range = Date.parse(lastDay) - Date.parse(firstDay)
+            // console.log("firstDay", firstDay)
+            // const lastDay = dates[dates.length - 1]
+            // console.log("lastDay", lastDay)
+            const range = new Date().getTime() - Date.parse(firstDay)
             console.log("range", range)
             let finishedCount = 0
+            let finishedY
             const pointArr = dates.map(date => {
                 const x = (Date.parse(date) - Date.parse(firstDay)) / range * 240
                 finishedCount += this.props.data[date].length
                 const y = (1 - (finishedCount / this.props.totalFinishedCount)) * 60
+                finishedY = y
                 return `${x},${y}`
             })
             console.log("pointArr", pointArr)
-            const svgPointString = ['0,60', ...pointArr, '240,60'].join(' ')
+            const svgPointString = ['0,60', ...pointArr, `240, ${finishedY}`, '240, 60'].join(' ')
             console.log(svgPointString)
             return svgPointString
         } else {
